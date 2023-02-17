@@ -1,0 +1,62 @@
+# equivalent SB3 params noted in in-line comments
+ppo:
+  log_level: "INFO"
+  evaluation_interval: 2048
+  evaluation_duration: 10
+  framework: "torch"
+  train_batch_size: 2048 # num_envs * n_steps
+  rollout_fragment_length: 2048
+  sgd_minibatch_size: 64 # batch_size
+  num_sgd_iter: 10 # num_epochs
+  lr: 0.0003 # learning_rate
+  gamma: 0.99
+  use_gae: True
+  lambda: 0.95 # gae_lambda
+  clip_param: 0.2 # clip_range
+  entropy_coeff: 0.0 # ent_coef
+  vf_loss_coeff: 0.5 # vf_coef
+  grad_clip: 0.5 # max_grad_norm
+  num_envs_per_worker: 1
+  num_workers: 1 # num_envs
+  num_gpus: 1
+
+# sac
+sac:
+  framework: "torch"
+  # training parameters
+  # (affect training time for fixed # timesteps)
+  train_batch_size: 256 # batch size for each gradient update
+  rollout_fragment_length: 64 # train_freq
+  training_intensity: 4 # native ratio = train_batch_size / rollout_fragment_length; gradient_steps = training_intensity / native_ratio
+  # num_steps_sampled_before_learning_starts: 1000
+  # other model parameters
+  tau: !!float 0.005
+  # resources and vectorization
+  num_envs_per_worker: 1
+  num_workers: 1
+  num_gpus: 1
+  # evaluation parameters
+  evaluation_interval: 2048
+  evaluation_duration: 10
+
+# td3
+td3:
+  framework: "torch"
+  tau: !!float 0.005
+  # training parameters
+  # (affect training time for fixed # timesteps)
+  train_batch_size: 256
+  rollout_fragment_length: 64
+  training_intensity: 4
+  # num_steps_sampled_before_learning_starts: 1000
+  # other model parameters
+  # (don't affect training time for fixed # timesteps)
+  # (will affect # timesteps to max reward)
+  policy_delay: 2
+  # resources and vectorization
+  num_envs_per_worker: 1
+  num_workers: 1
+  num_gpus: 1
+  # evaluation parameters
+  evaluation_interval: 2048
+  evaluation_duration: 10

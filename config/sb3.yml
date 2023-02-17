@@ -1,0 +1,64 @@
+# config for sb3 algorithms
+# ppo
+ppo:
+  policy: "MlpPolicy"
+  verbose: 1
+  learning_rate: !!float 3e-4
+  n_steps: 2048
+  batch_size: 64
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  clip_range_vf: null
+  normalize_advantage: True
+  ent_coef: 0.0
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+  use_sde: False
+  sde_sample_freq: -1
+  target_kl: null
+
+# sac
+sac:
+  # policy
+  # defaults to 256 x 256 w relu, same as RLlib
+  policy: "MlpPolicy"
+  # training parameters
+  # (affect training time for fixed # timesteps)
+  batch_size: 256 # batch size for each gradient update
+  train_freq: 64 # update model every train_freq steps
+  gradient_steps: 16 # no. gradient steps per rollout
+  learning_starts: 1500
+  # replay buffer size (same as RLlib default)
+  # (likely indirectly affects training time for fixed # timesteps)
+  buffer_size: 1000000
+  # other model parameters
+  # (don't affect training time for fixed # timesteps)
+  # (will affect # timesteps to max reward)
+  learning_rate: !!float 3e-4
+  tau: !!float 0.005
+  gamma: !!float 0.99
+  action_noise: null
+
+# td3
+td3:
+  # policy
+  # defaults to 256 x 256 w relu, same as RLlib
+  policy: "MlpPolicy"
+  # training parameters
+  # (affect training time for fixed # timesteps)
+  batch_size: 256
+  train_freq: 64
+  gradient_steps: 16
+  learning_starts: 10000 # rllib's default which cannot be set
+  # replay buffer size (same as RLlib default)
+  # (likely indirectly affects training time for fixed # timesteps)
+  buffer_size: !!int 1000000
+  # other model parameters
+  # (don't affect training time for fixed # timesteps)
+  # (will affect # timesteps to max reward)
+  learning_rate: !!float 1e-3
+  tau: 0.005
+  gamma: 0.99
+  policy_delay: 2
